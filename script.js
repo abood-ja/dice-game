@@ -1,10 +1,12 @@
 'use strict';
 
-let player = 0;
-let score = 0;
+let activePlayer = 0;
+let curScore = 0;
 let score1 = 0;
 let score2 = 0;
 // selecting elements
+const player0El = document.querySelector('.player--0');
+const player1El = document.querySelector('.player--1');
 const score0El = document.getElementById('score--0');
 const score1El = document.getElementById('score--1');
 const diceEl = document.querySelector('.dice');
@@ -20,22 +22,20 @@ function disPic(number) {
 }
 
 function addScore(diceNum) {
-  score += diceNum;
-  document.getElementById(`current--${player}`).textContent = score;
+  curScore += diceNum;
+  document.getElementById(`current--${activePlayer}`).textContent = curScore;
 }
 function changePlayer() {
-  score = 0;
-  document.getElementById('current--0').textContent = 0;
-  document.getElementById('current--1').textContent = 0;
-  if (player === 0) player = 1;
-  else player = 0;
+  curScore = 0;
+  player0El.classList.toggle('player--active');
+  player1El.classList.toggle('player--active');
+  document.getElementById(`current--${activePlayer}`).textContent = 0;
+
+  activePlayer === 1 ? (activePlayer = 0) : (activePlayer = 1);
 }
 
 btnRollEl.addEventListener('click', function () {
   const dice = Math.floor(Math.random() * 6) + 1;
   disPic(dice);
-  console.log(dice);
-
-  if (dice != 1) addScore(dice);
-  else changePlayer();
+  dice !== 1 ? addScore(dice) : changePlayer();
 });
